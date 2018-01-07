@@ -31,8 +31,6 @@ public class View_Asistencia extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtb_asistencia = new javax.swing.JTable();
-        jtf_fechaactual = new javax.swing.JTextField();
-        jtf_fechavenci = new javax.swing.JTextField();
         jbtn_checar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 102, 153));
@@ -59,12 +57,6 @@ public class View_Asistencia extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(211, 211, 211)
-                .addComponent(jtf_fechaactual, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(jtf_fechavenci, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(90, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -89,11 +81,7 @@ public class View_Asistencia extends javax.swing.JPanel {
                     .addComponent(jbtn_checar))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtf_fechaactual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtf_fechavenci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -103,8 +91,6 @@ public class View_Asistencia extends javax.swing.JPanel {
     public javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JButton jbtn_checar;
     public javax.swing.JTable jtb_asistencia;
-    public javax.swing.JTextField jtf_fechaactual;
-    public javax.swing.JTextField jtf_fechavenci;
     public javax.swing.JTextField jtf_id_cliente;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,8 +1,8 @@
 package controllers;
 
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import views.View_RentaLocker;
 import models.ModelRenta;
@@ -15,7 +15,8 @@ import models.ModelMain;
 
 
 public final class ControllerRenta implements FocusListener {
-
+    private int guia_id_clientes = 0;
+    private final ActionListener cambio_estado = (e -> jcb_id_cliente_click());
     private final ModelRenta model_renta;
     private final View_RentaLocker view_renta;
     private final ModelMain model_main;
@@ -38,44 +39,43 @@ public final class ControllerRenta implements FocusListener {
         view_renta.jbtn_siguiente.addActionListener(e -> jbtn_siguiente_click());
         view_renta.jbtn_anterior.addActionListener(e -> jbtn_anterior_click());
         view_renta.jbtn_agregar.setEnabled(false);
-        view_renta.jtf_id_renta.setEditable(false);
+        view_renta.jcb_id_cliente.setEditable(false);
 
     }
     
     public void getValores() {
-        view_renta.jtf_id_renta.setText("" + model_renta.getId_locker());
-        view_renta.jcb_id_cliente.setSelectedItem(model_renta.getId_cliente());
-        view_renta.jtf_nombre.setText(model_renta.getNombre());
+        view_renta.jcb_id_locker.setSelectedItem(model_renta.getId_locker());
+        view_renta.jcb_id_cliente.setSelectedIndex(guia_id_clientes);
         view_renta.jtf_inicio.setText(model_renta.getFechaIn());
         view_renta.jtf_final.setText(model_renta.getFechaFin());
         view_renta.jtf_monto.setText(model_renta.getMonto());
     }
     
     public void setValores() {
-        model_renta.setId_locker(view_renta.jtf_id_renta.getText());
-        model_renta.setId_cliente("" + view_renta.jcb_id_cliente.getSelectedItem());
-        model_renta.setMonto(view_renta.jtf_nombre.getText());
-        model_renta.setMonto(view_renta.jtf_monto.getText());
+        model_renta.setId_locker("" + view_renta.jcb_id_locker.getSelectedItem());
+        model_renta.setId_cliente(view_renta.jcb_id_cliente.getSelectedIndex());
         model_renta.setFechaFin(view_renta.jtf_final.getText());
         model_renta.setFechaIn(view_renta.jtf_inicio.getText());
         model_renta.setMonto(view_renta.jtf_monto.getText());
     }   
     
     public void ActualizarInterfaz(){
-        view_renta.jcb_id_cliente.removeActionListener(a -> jcb_id_cliente_click());
-        model_renta.ActuliazarComboClientes(view_renta.jcb_id_cliente);
+        view_renta.jcb_id_cliente.removeActionListener(cambio_estado);
+        model_renta.ActualizarComboLocker(view_renta.jcb_id_locker);
+        model_renta.ActualizarComboClientes(view_renta.jcb_id_cliente);
         model_renta.ObtenerLocker();
         view_renta.jtb_renta.setModel(model_renta.getTabla_locker());
+        model_renta.ObtenerRentas();
+        view_renta.jtb_lockers_disp.setModel(model_renta.getTabla_rentas());
         getValores();
-        view_renta.jcb_id_cliente.addActionListener(a -> jcb_id_cliente_click());
+        view_renta.jcb_id_cliente.addActionListener(cambio_estado);
     }
     
     public void jbtn_nuevo_click(){
-        view_renta.jtf_id_renta.setText("0");
+        view_renta.jcb_id_locker.setSelectedIndex(0);
         view_renta.jcb_id_cliente.setSelectedIndex(0);
         view_renta.jtf_inicio.setText("");
         view_renta.jtf_final.setText("");
-        view_renta.jtf_monto.setText("");
         view_renta.jtf_monto.setText("");
         view_renta.jbtn_agregar.setEnabled(true); 
     }
@@ -86,11 +86,12 @@ public final class ControllerRenta implements FocusListener {
         ActualizarInterfaz();
     }
      
-    public void jbtn_editar_click(){
+    public void jbtn_editar_click() {
         setValores();
         if (JOptionPane.showConfirmDialog(null, "Se modificará el registro ¿Desea continuar?",
-        "Modificar registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-        model_renta.modificar();
+                "Modificar registro", JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            model_renta.modificar();
+        }
         ActualizarInterfaz();
     }
     public void jcb_id_cliente_click(){
@@ -106,58 +107,33 @@ public final class ControllerRenta implements FocusListener {
     }
     
 
-      /*   
-    public void jcb_tipo_mem_click() {
-        String tipo_mem = "" + view_membresia.jcb_tipo_mem.getSelectedItem();
-        String tipo_cli = "" + view_membresia.jtf_tipoc.getText();
-        
-        if (tipo_mem.equals("VISITA")) {
-            model_membresia.setMonto("30");
-            view_membresia.jtf_monto.setText(model_membresia.getMonto());
-        } 
-        else if (tipo_mem.equals("SEMANA")) {
-            model_membresia.setMonto("90");
-            view_membresia.jtf_monto.setText(model_membresia.getMonto());
-
-        } 
-        else if (tipo_mem.equals("MES")) {
-            if (tipo_cli.equals("E")) {
-                model_membresia.setMonto("180");
-                view_membresia.jtf_monto.setText(model_membresia.getMonto());
-            } 
-            else {
-                model_membresia.setMonto("200");
-                view_membresia.jtf_monto.setText(model_membresia.getMonto());
-            }
-        } 
-        else if (tipo_mem.equals("AÑO")) {
-            model_membresia.setMonto("1200");
-            view_membresia.jtf_monto.setText(model_membresia.getMonto());
-        }
-    }
-    /*
+     
      /******************************BOTONES NAVEGACION****************************/
 
     public void jbtn_primero_click(){
         model_main.Mover_Primero();
         model_renta.AsignarDatos();
+        guia_id_clientes = 0;
         getValores();
     }
     
     public void jbtn_ultimo_click(){
         model_main.Mover_Ultimo();
         model_renta.AsignarDatos();
+        guia_id_clientes = model_renta.getId_clientes().getItemCount();
         getValores();     
     }
     
     public void jbtn_anterior_click(){
         model_main.Mover_Anterior();
         model_renta.AsignarDatos();
+        guia_id_clientes --;
         getValores();
     }
     public void jbtn_siguiente_click(){
         model_main.Mover_Siguiente();
         model_renta.AsignarDatos();
+        guia_id_clientes ++;
         getValores();
     }
     
@@ -165,6 +141,7 @@ public final class ControllerRenta implements FocusListener {
     public void focusGained(FocusEvent e) {
         ActualizarInterfaz();
         model_renta.ObtenerLocker();
+        guia_id_clientes = 0;
     }
 
     @Override

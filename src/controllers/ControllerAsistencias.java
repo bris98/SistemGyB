@@ -17,82 +17,55 @@ import models.ModelMain;
 /**
  *
  * @author Briceyda Angeles
+ * 
  */
-public final class ControllerAsistencias  implements FocusListener {
-    private final ModelAsistencias model_asistencia;
+
+public class ControllerAsistencias implements FocusListener{
+    private final ModelAsistencias model_asistencias;
     private final View_Asistencia view_asistencia;
-    private final ModelMain model_main;
     
-     public ControllerAsistencias(Object models[], Object views[], Object controllers[]) {
-        this.model_asistencia = (ModelAsistencias) models[3];
-        this.view_asistencia = (View_Asistencia) views[3];
-        this.model_main = (ModelMain) models[0];
+    public ControllerAsistencias(Object models[], Object views[], Object controllers[]){
+        this.model_asistencias = (ModelAsistencias)models[5];
+        this.view_asistencia = (View_Asistencia)views[5];
         initView();
-    
     }
-     public void initView(){
-         view_asistencia.addFocusListener(this);
-         //botones 
-     }
-     public void getValores(){
-         
-     }
-     public void setValores(){
-    public void fechas() {
-             try{
-     int as = Integer.parseInt(jtf_id_cliente.getText());
-    String sql = "SELECT MEMBRESIA.FECHA_FINAL,CLIENTE.NOMBRE from MEMBRESIA  INNER JOIN CLIENTE ON MEMBRESIA.ID_CLIENTE = CLIENTE.ID_CLIENTE WHERE MEMBRESIA.ID_CLIENTE = "+as;
-    System.out.println(sql);
-    rs=st.executeQuery(sql);
-    rs.first();
-    this.jtf_fecha_vencimiento.setText(rs.getString("FECHA_FINAL"));
-
-    String sqll = "select * from ASISTENCIA where ID_CLIENTE ='" + as+"'";
-    System.out.println(sqll);
-    rs=st.executeQuery(sqll);
-    rs.first();
-    this.jtf_fecha_actual.setText(rs.getString("FECHA_ASISTENCIA"));
     
-    String Fecha_Vencimiento =jtf_fecha_vencimiento.getText();
-    String Fecha_Actual = jtf_fecha_actual.getText();
+    public void initView(){
+        Definir_Action_Listeners();
+    }
     
-    JOptionPane.showMessageDialog(null, "FAVOR DE RENOVAR TU MEMBRESIA");
-
-    if (Fecha_Vencimiento.equals(Fecha_Actual)) {
-            System.out.println("WORKING");
-            JOptionPane.showMessageDialog(null, "FAVOR DE RENOVAR TU MEMBRESIA");
-
-}
-             } catch (SQLException err) {
-            JOptionPane.showMessageDialog(null, "Error " + err.getMessage());
-        }
-}
-    public void fechafinal() {
-    try{
-     int as = Integer.parseInt(jtf_id_cliente.getText());
-    String sql = "select * from MEMBRESIA ";
-    System.out.println(sql);
-    rs=st.executeQuery(sql);
-    rs.first();
-    this.jtf_fecha_vencimiento.setText(rs.getString("FECHA_FINAL"));
-
-    String sqll = "select * from ASISTENCIA where ID_CLIENTE ='" + as+"'";;
-    System.out.println(sqll);
-    rs=st.executeQuery(sqll);
-    rs.first();
-    this.jtf_fecha_actual.setText(rs.getString("FECHA_ASISTENCIA"));
+    public void Definir_Action_Listeners(){
+        view_asistencia.addFocusListener(this);
+        view_asistencia.jbtn_checar.addActionListener(e -> jbtn_checar_click());
+    }
     
-    String Fecha_Vencimiento =jtf_fecha_vencimiento.getText();
-    String Fecha_Actual = jtf_fecha_actual.getText();
+    public void ActualizarTabla(){
+        model_asistencias.ObtenerAsistencias();
+        view_asistencia.jtb_asistencia.setModel(model_asistencias.getJtabla());
+    }
     
-    JOptionPane.showMessageDialog(null, "FAVOR DE RENOVAR TU MEMBRESIA");
+    public void getValores(){
+        
+    }
+    
+    public void setValores(){
+        model_asistencias.setId_cliente(view_asistencia.jtf_id_cliente.getText());
+    }
+    
+    public void jbtn_checar_click(){
+        setValores();
+        model_asistencias.RegistrarAsistencia();
+        ActualizarTabla();
+    }
 
-    if (Fecha_Vencimiento.equals(Fecha_Actual)) {
-            System.out.println("WORKING");
-            JOptionPane.showMessageDialog(null, "FAVOR DE RENOVAR TU MEMBRESIA");
+    @Override
+    public void focusGained(FocusEvent e) {
+        ActualizarTabla();
+    }
 
-}
-             } catch (SQLException err) {
-            JOptionPane.showMessageDialog(null, "Error " + err.getMessage());
-        }
+    @Override
+    public void focusLost(FocusEvent e) {
+        
+    }
+
 }

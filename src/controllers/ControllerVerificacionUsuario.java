@@ -52,13 +52,13 @@ public class ControllerVerificacionUsuario {
         }
         else{
             //desbloquea jmi's relacionado con empleado
-            view_main.jme_archivo.setVisible(false);
+            view_main.jme_archivo.setVisible(true);
             view_main.jm_sistema.setVisible(true);
             view_main.jmi_asistencias.setVisible(true);
             view_main.jmi_rentas.setVisible(true);
             view_main.jmi_clientes.setVisible(true);
-            view_main.jmi_membrecia.setVisible(false);
-            view_main.jmi_verificacion_usuario.setVisible(false);
+            view_main.jmi_membrecia.setVisible(true);
+            view_main.jmi_verificacion_usuario.setVisible(true);
         }
         view_verificacion_usuario.jtf_usuario.setText("");
         view_verificacion_usuario.jpwd_contraseña.setText("");

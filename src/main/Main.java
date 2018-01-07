@@ -17,6 +17,7 @@ public class Main {
         ModelClientes model_clientes = new ModelClientes(model_main);
         ModelMembresia model_membrecia = new ModelMembresia(model_main);
         ModelRenta model_renta =new ModelRenta (model_main);
+        ModelAsistencias model_asistencias = new ModelAsistencias(model_main);
         
         ViewMain view_main = new ViewMain();
         ViewVerificacionUsuario view_verificacion_usuario = new ViewVerificacionUsuario();
@@ -34,13 +35,14 @@ public class Main {
         models[2] = model_clientes;
         models[3] = model_membrecia; 
         models[4] = model_renta;
+        models[5] = model_asistencias;
         
         views[0] = view_main;
         views[1] = view_verificacion_usuario;
         views[2] = view_clientes;
         views[3] = view_membrecia;
         views[4] = view_renta;
-        views[5] =view_asistencia;
+        views[5] = view_asistencia;
         
         ControllerMain controller_main = new ControllerMain(models, views, controllers);
         controllers[0] = controller_main;
@@ -56,6 +58,9 @@ public class Main {
         
         ControllerRenta controller_renta = new ControllerRenta(models, views, controllers);
         controllers[4] = controller_renta;
+        
+        ControllerAsistencias controller_asistencias = new ControllerAsistencias(models, views, controllers);
+        controllers[5] = controller_asistencias;
     }
     
     
